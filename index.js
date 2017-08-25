@@ -31,19 +31,14 @@
  * @module JsonRefs
  */
 
-const factories = require('./lib/factories')
-let api = {}
+const JsonRefs = require('./lib/api');
 
 function createRefsResolver(options = {}) {
-  var customPathLoader = options.pathLoader || options.createPathLoader ? options.createPathLoader(options) : null
-  options.pathLoader = customPathLoader || factories.createPathLoader(options)
-
-  apiMethods.reduce((name, api) => {
-    // resolveRefsAt: options.resolveRefsAt || factories.createResolveRefsAt(options),
-    api[name] = options[name] || factories[name](options, api);
-    return api;
-  }, api)
+  return new JsonRefs(options);
 };
 
 /* Export the api */
-module.exports = api;
+module.exports = {
+  createRefsResolver,
+  api: createRefsResolver()
+};
