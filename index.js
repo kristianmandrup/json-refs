@@ -31,14 +31,23 @@
  * @module JsonRefs
  */
 
-const JsonRefs = require('./lib/api');
+const {
+  JsonRefs,
+  api
+} = require('./lib/api');
 
 function createRefsResolver(options = {}) {
   return new JsonRefs(options);
 };
 
+let refsApi = createRefsResolver()
+refsApi.createRefsResolver = createRefsResolver
+
+console.log({
+  JsonRefs,
+  refsApi,
+  findRefsAt: refsApi.findRefsAt
+})
+
 /* Export the api */
-module.exports = {
-  createRefsResolver,
-  api: createRefsResolver()
-};
+module.exports = refsApi;
